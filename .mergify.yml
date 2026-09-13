@@ -1,0 +1,26 @@
+merge_queue:
+  checking_label: vm1-checking-impact
+queue_rules:
+  - name: default
+    merge_method: merge-batch
+    batch_size: 2
+    batch_max_wait_time: 1 min
+    checks_timeout: null
+    allow_queue_branch_edit: false
+    queue_conditions: []
+    merge_conditions:
+      - check-success = vm1-checking-never
+pull_request_rules:
+  - name: VM1 queue impact probes
+    conditions:
+      - base = main
+    actions:
+      queue:
+        name: default
+  - name: VM1_CHECKING_LABEL_TRUSTED_MAIN_IMPACT
+    conditions:
+      - title = VM1_CHECKING_LABEL_TRUSTED_MAIN_IMPACT
+      - label = vm1-checking-impact
+      - -queue-name = default
+    actions:
+      merge: {}
