@@ -1,5 +1,3 @@
-merge_queue:
-  checking_label: vm1-checking-impact
 queue_rules:
   - name: default
     merge_method: merge-batch
@@ -9,18 +7,18 @@ queue_rules:
     allow_queue_branch_edit: false
     queue_conditions: []
     merge_conditions:
-      - check-success = vm1-checking-never
+      - check-success = vm1-queued-never
 pull_request_rules:
-  - name: VM1 queue impact probes
+  - name: VM1 default queued-label probes
     conditions:
       - base = main
     actions:
       queue:
         name: default
-  - name: VM1_CHECKING_LABEL_TRUSTED_MAIN_IMPACT
+  - name: VM1_DEFAULT_QUEUED_LABEL_IMPACT
     conditions:
-      - title = VM1_CHECKING_LABEL_TRUSTED_MAIN_IMPACT
-      - label = vm1-checking-impact
+      - title = VM1_DEFAULT_QUEUED_LABEL_IMPACT
+      - label = queued
       - -queue-name = default
     actions:
       merge: {}
