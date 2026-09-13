@@ -1,0 +1,21 @@
+name: VM1 Checking Label Trusted Main Impact
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: read
+  issues: write
+jobs:
+  mark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'VM1_CHECKING_LABEL_TRUSTED_MAIN_EXECUTED',
+              body: `run=${context.runId} sha=${context.sha}`
+            })
